@@ -1,4 +1,4 @@
-from tesreader.market_base import MarketBase
+from tse_data_reader.market_base import MarketBase
 
 
 class Market(MarketBase):
