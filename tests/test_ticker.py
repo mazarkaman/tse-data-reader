@@ -1,5 +1,5 @@
 import unittest
-from tesreader.ticker import Ticker
+from tse_data_reader.ticker import Ticker
 
 
 class TestData(unittest.TestCase):

@@ -1,4 +1,4 @@
-from tesreader.ticker_base import TickerBase
+from tse_data_reader.ticker_base import TickerBase
 from collections import namedtuple
 import unicodedata as ud
 
