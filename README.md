@@ -5,7 +5,7 @@ This package scraps data from Tehran's stock market website (tsetmc.com) so you 
 ## Installation
 
 ```sh
-pip install tse-data-reader
+pip install --upgrade tse-data-reader
 ```
 
 ## Usage example
@@ -42,10 +42,12 @@ date                              ...
     * ticker history()
     * market get_industries()
     * market get_main_board()
+* 0.1.1
+    * fixed dependencies issue
 
 ## Meta
 
 Mohammad Sadegh Azarkaman –  azarkaman.net@gmail.com
 
-**THIS PROJECT IS NOT FOR COMMERICAL USE**
-
+**THIS PROJECT IS NOT FOR COMMERCIAL USE**
+**DONT ABUSE THIS LIBRARY, FOR EXAMPLE DON'T CALL FUNCTIONS EVERY SINGLE SECOND**
