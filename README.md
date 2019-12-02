@@ -37,7 +37,7 @@ date                              ...
 ```
 
 ## Release History
-* 0.0.1
+* 0.1.0
     * ticker info()
     * ticker history()
     * market get_industries()

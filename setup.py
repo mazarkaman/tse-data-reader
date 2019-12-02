@@ -7,7 +7,7 @@ README = (PATH / "README.md").read_text()
 
 setup(
     name="tse-data-reader",
-    version="0.0.0",
+    version="0.1.0",
     description="Read the latest Real Python tutorials",
     long_description=README,
     long_description_content_type="text/markdown",
