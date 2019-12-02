@@ -7,7 +7,7 @@ README = (PATH / "README.md").read_text()
 
 setup(
     name="tse-data-reader",
-    version="0.1.0",
+    version="0.1.1",
     description="reads data from tsetmc.com website",
     long_description=README,
     long_description_content_type="text/markdown",
