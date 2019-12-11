@@ -6,7 +6,7 @@ import unicodedata as ud
 
 
 class MarketBase(object):
-    base_url = "http://cdn1.tsetmc.com"
+    base_url = "http://cdn.tsetmc.com"
 
     def __init__(self):
         self._tickers_list_address = self.base_url + "/tsev2/data/MarketWatchInit.aspx?h=0&r=0"

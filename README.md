@@ -44,6 +44,8 @@ date                              ...
     * market get_main_board()
 * 0.1.1
     * fixed dependencies issue
+* 0.1.2
+    * minor changes
 * new features are coming...
 
 ## Meta

@@ -1,10 +1,11 @@
+import ast
 import datetime
 from io import StringIO
 import pandas as pd
 import jdatetime
 import requests
+import re
 from bs4 import BeautifulSoup
-
 from tse_data_reader.market_base import MarketBase
 
 
@@ -20,8 +21,18 @@ class TickerBase(object):
         self._history_url = MarketBase.base_url + \
                             "/tsev2/data/InstTradeHistory.aspx?i={}&Top=999999&A=1".format(self.ticker_id)
 
+        self._elements_url = MarketBase.base_url + \
+                             "/loader.aspx?ParTree=151311&i={}".format(self.ticker_id)
+
+        self._watcher_url = MarketBase.base_url + \
+                            "/tsev2/data/instinfodata.aspx?i={}&c=73+".format(self.ticker_id)
+
+        self._watcher_url_fast = MarketBase.base_url + \
+                                 "/tsev2/data/instinfofast.aspx?i={}&c=73+".format(self.ticker_id)
+
         self._info = None
         self._history = None
+        self._elements = self._get_main_elements()
 
     def _get_info(self):
         req = requests.request("GET", self._info_url, timeout=400)
@@ -83,3 +94,44 @@ class TickerBase(object):
         req = requests.request("GET", self._history_url, timeout=40)
         data = req.text.replace(";", "\n")
         return data
+
+    def _get_main_elements(self):
+        elements = {}
+        try:
+            res = requests.get(self._elements_url)
+            _vars = re.search(r"(?<=<script>).+(EstimatedEPS).+(?=<\/script>)", res.text)
+            if _vars:
+                _vars = _vars.group(0)
+                _vars = _vars.replace("var", "").replace(";ThemeCount", "") \
+                    .split(",")
+                for var in _vars:
+                    e = var.split("=")
+                    elements.update({e[0].strip(): \
+                                         e[1].replace("'", "").strip()})
+            return elements
+        except Exception as ex:
+            print(ex)
+
+    def _get_watcher_values(self):
+        watcher = {}
+        if "TopInst" in self._elements["TopInst"] and \
+                self._elements["TopInst"] == 1:
+            req = requests.get(self._watcher_url_fast)
+        else:
+            req = requests.get(self._watcher_url)
+
+        res = req.text
+        res = res[res.index("A ,"): res.index(";")]
+        prices = res.split(",")
+        watcher.update({"last_price": prices[1]})
+        watcher.update({"close_price": prices[2]})
+        watcher.update({"first_price": prices[3]})
+        watcher.update({"yesterday_price": prices[4]})
+        watcher.update({"day_min_range": prices[5]})
+        watcher.update({"day_max_range": prices[6]})
+        watcher.update({"trade_count": prices[7]})
+        watcher.update({"trade_volume": prices[8]})
+        watcher.update({"trade_value": prices[9]})
+        watcher.update({"last_trade_date": prices[11]})
+        watcher.update({"last_trade_time": prices[12]})
+        return watcher

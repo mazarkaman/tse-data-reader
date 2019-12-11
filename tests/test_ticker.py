@@ -36,3 +36,21 @@ class TestData(unittest.TestCase):
         history = self.ticker.history()
         self.assertGreater(len(history.index), 0)
 
+    def test_price_to_earnings(self):
+        eps = self.ticker.estimated_eps
+        watcher = self.ticker.watcher()
+        p_to_e = round(watcher.close_price / eps, 2)
+        self.assertEqual(watcher.p_to_e, p_to_e)
+
+    def test_watcher(self):
+        watcher = self.ticker.watcher()
+        self.assertIsNotNone(watcher.p_to_e)
+        self.assertIsNotNone(watcher.close_price)
+        self.assertIsNotNone(watcher.first_price)
+        self.assertIsNotNone(watcher.day_max_range)
+        self.assertIsNotNone(watcher.day_min_range)
+        self.assertIsNotNone(watcher.trade_count)
+        self.assertIsNotNone(watcher.trade_volume)
+        self.assertIsNotNone(watcher.trade_value)
+        self.assertIsNotNone(watcher.yesterday_price)
+        self.assertIsNotNone(watcher.last_price)

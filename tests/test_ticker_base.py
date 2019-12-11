@@ -12,6 +12,5 @@ class TestTickerBase(unittest.TestCase):
         self.assertEqual(id, 28864540805361867)
 
     def test_info(self):
-        self.ticker_base._get_info()
-
+        assert self.ticker_base._get_info() is not None
 
