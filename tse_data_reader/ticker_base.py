@@ -7,12 +7,13 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from tse_data_reader.market_base import MarketBase
+from tse_data_reader.utils import normalize_persian_chars
 
 
 class TickerBase(object):
     def __init__(self, ticker_name: str):
         self._market = MarketBase()
-        self.ticker_name = ticker_name
+        self.ticker_name = normalize_persian_chars(ticker_name)
         self.ticker_id = self.get_id()
 
         self._info_url = MarketBase.base_url + \
@@ -86,9 +87,12 @@ class TickerBase(object):
         return df
 
     def get_id(self):
-        board = self._market._get_board()
-        _id = board.loc[self.ticker_name]["id"]
-        return _id
+        try:
+            board = self._market._get_board()
+            _id = board.loc[self.ticker_name]["id"]
+            return _id
+        except KeyError:
+            raise KeyError("ticker {} is not found".format(self.ticker_name))
 
     def _get_history_raw(self):
         req = requests.request("GET", self._history_url, timeout=40)
