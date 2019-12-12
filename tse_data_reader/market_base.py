@@ -18,7 +18,6 @@ class MarketBase(object):
         try:
             tickers = requests.request("GET", self._tickers_list_address,
                                        timeout=400, stream=True)
-            print(tickers.text)
             raw_data = tickers.text.split("@")[2]
             raw_data = raw_data.replace(";", "\n")
             data = pd.read_csv(StringIO(raw_data), sep=",")
