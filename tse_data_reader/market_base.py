@@ -18,18 +18,21 @@ class MarketBase(object):
         try:
             tickers = requests.request("GET", self._tickers_list_address,
                                        timeout=400, stream=True)
-            raw_data = tickers.text.split("@")[2]
-            raw_data = raw_data.replace(";", "\n")
-            data = pd.read_csv(StringIO(raw_data), sep=",")
-            data.columns = ["id", "isin", "code", "fa_name", "un1",
-                            "first_price", "last_price", "last_trade", "count",
-                            "volume", "value", "min_price", "max_price", "y_price",
-                            "eps", "base_volume", "un2", "bit_count", "industry_code",
-                            "max_allowed_price", "min_allowed_price", "share_count", "type"]
+            raw_data = tickers.text.split("@")
+            if len(raw_data) >= 3:
+                raw_data = raw_data[2].replace(";", "\n")
+                data = pd.read_csv(StringIO(raw_data), sep=",")
+                data.columns = ["id", "isin", "code", "fa_name", "un1",
+                                "first_price", "last_price", "last_trade", "count",
+                                "volume", "value", "min_price", "max_price", "y_price",
+                                "eps", "base_volume", "un2", "bit_count", "industry_code",
+                                "max_allowed_price", "min_allowed_price", "share_count", "type"]
 
-            data['code'] = normalize_persian_chars(data['code'].str)
-            data.set_index("code", inplace=True)
-            return data
+                data['code'] = normalize_persian_chars(data['code'].str)
+                data.set_index("code", inplace=True)
+                return data
+            else:
+                raise IndexError("there is problem in getting data")
         except IndexError:
             raise IndexError("there is problem in getting data")
 
