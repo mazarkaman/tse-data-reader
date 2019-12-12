@@ -36,6 +36,18 @@ date                              ...
 [2097 rows x 9 columns]
 ```
 
+```python
+>> ticker = Ticker('فملی')
+>> ticker.estimated_eps
+1092
+>> w = ticker.watcher()
+>> w.p_to_e
+5.59
+>> w.close_price
+6106
+
+```
+
 ## Release History
 * 0.1.0
     * ticker info()
@@ -46,11 +58,14 @@ date                              ...
     * fixed dependencies issue
 * 0.1.2
     * minor changes
-* new features are coming...
+* 0.2.1
+    * added ticker.watcher() (see examples)
+    * added estimated_eps
 
 ## Meta
 
 Mohammad Sadegh Azarkaman –  azarkaman.net@gmail.com
 
 **THIS PROJECT IS NOT FOR COMMERCIAL USE**
+
 **DONT ABUSE THIS LIBRARY, FOR EXAMPLE DON'T CALL FUNCTIONS EVERY SINGLE SECOND**
