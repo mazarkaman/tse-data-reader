@@ -7,7 +7,7 @@ README = (PATH / "README.md").read_text()
 
 setup(
     name="tse-data-reader",
-    version="0.2.1",
+    version="0.2.2",
     description="This lib provides needed data to analyze Tehran's stock market",
     long_description=README,
     long_description_content_type="text/markdown",
